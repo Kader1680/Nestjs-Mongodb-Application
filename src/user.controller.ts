@@ -8,15 +8,15 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createUser(@Body() body: any) {
+  async store(@Body() body: any) {
     const { firstName, lastName, email, password } = body;
-    return this.userService.createUser(firstName, lastName, email, password);
+    return this.userService.store(firstName, lastName, email, password);
   }
 
   @Get()
-    async findAll() {
+    async index() {
         try {
-            const allData = await this.userService.findAll();
+            const allData = await this.userService.index();
             return { data: allData }; // Return data as JSON
         } catch (error) {
             throw new Error(`Error while fetching data: ${error.message}`);
@@ -24,42 +24,42 @@ export class UserController {
     }
 
   @Get(':id')
-    async findById(@Param('id') id: string) {
+    async show(@Param('id') id: string) {
         try {
-            const data = await this.userService.findById(id);
+            const data = await this.userService.show(id);
             if (!data) {
                 return { message: 'Data not found' };
             }
             return { data };
         } catch (error) {
-            throw new Error(`Error while fetching data: ${error.message}`);
+            throw new Error(`Error while fetching by id data: ${error.message}`);
         }
     }
 
 
     @Put(':id')
-    async updateById(@Param('id') id: string, @Body() updateData: any) {
+    async edit(@Param('id') id: string, @Body() updateData: any) {
         try {
-            const updateById = await this.userService.updateById(id, updateData);
+            const updateById = await this.userService.edit(id, updateData);
             if (!updateById) {
                 return { message: 'Data not found' };
             }
             return { updateById };
         } catch (error) {
-            throw new Error(`Error while deleteById data: ${error.message}`);
+            throw new Error(`Error while edit data: ${error.message}`);
         }
     }
 
     @Delete(':id')
-    async deleteById(@Param('id') id: string) {
+    async destroy(@Param('id') id: string) {
         try {
-            const data = await this.userService.deleteById(id);
+            const data = await this.userService.destroy(id);
             if (!data) {
                 return { message: 'Data not found' };
             }
             return { data };
         } catch (error) {
-            throw new Error(`Error while deleteById data: ${error.message}`);
+            throw new Error(`Error while destroy data: ${error.message}`);
         }
     }
 }

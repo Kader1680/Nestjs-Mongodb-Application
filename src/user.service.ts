@@ -7,31 +7,30 @@ import { User } from './user.schema';
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
-// create new user
-  async createUser(firstName: string, lastName: string, email: string, password: string): Promise<User> {
+// store
+  async store(firstName: string, lastName: string, email: string, password: string): Promise<User> {
     const newUser = new this.userModel({ firstName, lastName, email, password });
     return newUser.save();
   }
-// get all users
+// index
 
-  async findAll(): Promise<User[]> {
+  async index(): Promise<User[]> {
     return this.userModel.find().exec();
     }
-// Get User By Id
-
-    async findById(id: string): Promise<User> {
+// show
+    async show(id: string): Promise<User> {
     return this.userModel.findById(id).exec();
 
     
 }
-// Deleted by ID
+// destroy 
 
-async deleteById(id: string): Promise<User> {
+async destroy(id: string): Promise<User> {
     return this.userModel.findByIdAndDelete(id).exec();
     
 }
-// updated by ID
-async updateById(id: string, updateData: any): Promise<User> {
+// edit
+async edit(id: string, updateData: any): Promise<User> {
     const updateDataUser =  this.userModel.findByIdAndUpdate(id, updateData).exec();
     return updateDataUser;
 }
